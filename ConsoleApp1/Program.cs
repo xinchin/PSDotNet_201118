@@ -22,7 +22,10 @@ namespace ConsoleApp1
                 switch (op)
                 {
                     case "0":
-                        Console.WriteLine("-------- Say Hello ----------");
+                        Demo.DemoHello.Run();
+                        break;
+                    case "1":
+                        Demo.DemoAsync.Run();
                         break;
                     case "exit":
                         canExecute = false;
@@ -39,6 +42,8 @@ namespace ConsoleApp1
         static void ShowOptions() {
             List<string> optionList = new List<string>();
             optionList.Add("Say Hello");    //0
+            optionList.Add("DemoAsync");    //1
+            
 
             Console.WriteLine();
             for (int i = 0; i < optionList.Count; i++)

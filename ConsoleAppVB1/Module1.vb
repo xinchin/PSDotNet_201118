@@ -11,7 +11,9 @@
             Console.WriteLine()
             Select Case op
                 Case "0"
-                    Console.WriteLine("---------- Say Hello ---------")
+                    DemoHello.Run()
+                Case "1"
+                    DemoAsync.Run()
                 Case "exit"
                     canExecute = False
                 Case Else
@@ -26,7 +28,8 @@
     Sub ShowOptions()
         Dim optionList As New List(Of String)
 
-        optionList.Add("Say Hello")
+        optionList.Add("Say Hello") '0
+        optionList.Add("DemoAsync") '1
 
         Console.WriteLine()
 
