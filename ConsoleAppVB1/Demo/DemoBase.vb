@@ -3,6 +3,7 @@
 
     Shared Sub ShowOptions()
 
+        Console.WriteLine("=========================================================")
         Console.WriteLine()
 
         For i = 0 To optionList.Count - 1

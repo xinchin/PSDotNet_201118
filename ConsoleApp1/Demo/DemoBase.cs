@@ -14,7 +14,7 @@ namespace ConsoleApp1.Demo
             Console.WriteLine();
             for (int i = 0; i < optionList.Count; i++)
             {
-                Console.Write("{0}. {1}\t\t", i, optionList[i].ToString());
+                Console.Write("{0}. {1}\t\t\t", i, optionList[i].ToString());
                 if ((i + 1) % 3 == 0) Console.WriteLine();
             }
             Console.WriteLine();

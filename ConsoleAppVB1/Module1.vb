@@ -8,6 +8,7 @@
             op = Console.ReadLine()
             Console.WriteLine()
             Console.WriteLine("Your selection is： {0}", op)
+            Console.WriteLine("=========================================================")
             Console.WriteLine()
             Select Case op
                 Case "0"
@@ -32,7 +33,7 @@
         optionList.Add("DemoAsync") '1
 
         Console.WriteLine()
-
+        Console.WriteLine("=========================================================")
         For i = 0 To optionList.Count - 1
             Console.Write("{0}. {1}" & vbTab & vbTab, i, optionList(i).ToString())
             If ((i + 1) Mod 3 = 0) Then Console.WriteLine()
