@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Demo\DemoAsync.vb" />
+    <Compile Include="Demo\DemoBase.vb" />
     <Compile Include="Demo\DemoHello.vb" />
     <Compile Include="Module1.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

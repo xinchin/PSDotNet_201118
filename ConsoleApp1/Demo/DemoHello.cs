@@ -6,14 +6,17 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1.Demo
 {
-    class DemoHello
+    class DemoHello:DemoBase
     {
+        
         public static void Run()
         {
             bool canExecute = true;
             string op = string.Empty;
 
-            //Console.WriteLine("------------ Hello World -------------------");
+            optionList.Add("Hello 001");    //0
+            optionList.Add("Hello 002");    //1
+
             while (canExecute)
             {
                 ShowOptions();
@@ -38,29 +41,6 @@ namespace ConsoleApp1.Demo
             }
             Console.WriteLine();
         }
-
-        public static void ShowOptions()
-        {
-            List<string> optionList = new List<string>();
-            optionList.Add("Hello 001");    //0
-            optionList.Add("Hello 002");    //1
-
-
-            Console.WriteLine();
-            for (int i = 0; i < optionList.Count; i++)
-            {
-                Console.Write("{0}. {1}\t\t", i, optionList[i].ToString());
-                if ((i + 1) % 3 == 0) Console.WriteLine();
-            }
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("please type 'exit' if you want to exit here");
-            Console.WriteLine();
-            Console.Write("Please type your selection :");
-        }
-
     }
-
-
 }
 
