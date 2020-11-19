@@ -65,15 +65,20 @@ namespace ConsoleApp1.Demo
         {
             Console.WriteLine("------ Say Hello ------");
 
-            var v1 = 99;
 
-            Console.WriteLine(v1.GetType());
+            int? x =null;
 
+            if (x != null )
+            {
 
+            }
+            
 
 
 
         }
+
+
 
         /// <summary>
         /// 系統環境
@@ -138,6 +143,11 @@ namespace ConsoleApp1.Demo
 
             Console.WriteLine(sb.ToString());
 
+        }
+
+        public static void EnterLogData(string msg, string owner = "BOSS")
+        {
+            Console.WriteLine("Message is {0}, Owner is {1}", msg, owner);
         }
 
     }
