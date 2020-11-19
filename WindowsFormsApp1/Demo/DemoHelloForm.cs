@@ -16,5 +16,10 @@ namespace WindowsFormsApp1.Demo
         {
             InitializeComponent();
         }
+
+        public string SayHello() 
+        {
+            return "hello";
+        }
     }
 }
