@@ -21,6 +21,7 @@ namespace ConsoleApp1.Demo
             optionList.Add("BasicStringFunctionality");     //3
             optionList.Add("StringEquality");               //4
             optionList.Add("FunWithStringBuilder");         //5
+            optionList.Add("Array Test");         //5
 
 
 
@@ -50,6 +51,18 @@ namespace ConsoleApp1.Demo
                         break;
                     case "5":
                         FunWithStringBuilder();
+                        break;
+                    case "6":
+                        int[] a = new int[] { 1, 2, 3 };
+
+                        Console.WriteLine(a.Length);
+
+                        for (int i = 0; i < a.Length; i++)
+                        {
+                            Console.WriteLine(i);
+                        }
+                        Console.WriteLine("end");
+
                         break;
                     case "exit":
                         canExecute = false;

@@ -10,6 +10,7 @@
         optionList.Add("ShowEnvironmentDetails")            '1
         optionList.Add("UseDatesAndTimes")                  '2
         optionList.Add("BasicStringFunctionality")          '3
+        optionList.Add("Array Test")          '4
 
         While canExecute
             ShowOptions()
@@ -27,6 +28,16 @@
                     ShowEnvironmentDetails()
                 Case "3"
                     BasicStringFunctionality()
+                Case "4"
+                    Dim a() As Integer = New Integer() {1, 2, 3}
+                    Console.WriteLine(a.Count)
+                    Console.WriteLine(a.Length)
+
+
+                    For index = 0 To a.Length - 1
+                        Console.WriteLine(a(index))
+                    Next
+                    Console.WriteLine("end")
                 Case "exit"
                     canExecute = False
                 Case Else
@@ -40,12 +51,17 @@
 
         'Console.WriteLine(CalculateAverage(1, 2, 3, 4, 5, 6, 7))
 
+        Dim lst001 As List(Of String) = New List(Of String)
+        'lst001.Add("aaa")
+        'lst001.Add("bbb")
+        'lst001.Add("ccc")
+        lst001.AddRange({"aaa", "bbb", "ccc"})
+        Console.WriteLine("aaa:{0}, ddd:{1}", lst001.IndexOf("bbb"), lst001.IndexOf("ddd"))
 
-        Dim x? As Integer = Nothing
-
-        If x IsNot Nothing Then
-
+        If lst001.IndexOf("aaa") <> -1 Then
+            Console.WriteLine("aaaaaaaaaaaaa")
         End If
+
 
 
 
