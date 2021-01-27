@@ -1,10 +1,11 @@
-﻿Public Class DemoHello
+﻿
+Public Class DemoHello
     Inherits DemoBase
 
     Shared Sub Run()
         Dim canExecute As Boolean = True
         Dim op As String = String.Empty
-
+        Console.Clear()
         optionList.Clear()
         optionList.Add("Hello 001")                         '0
         optionList.Add("ShowEnvironmentDetails")            '1
@@ -17,7 +18,7 @@
             op = Console.ReadLine()
             Console.WriteLine()
             Console.WriteLine("Your selection is： {0}", op)
-            Console.WriteLine("=========================================================")
+            Console.WriteLine(LineString)
             Console.WriteLine()
             Select Case op
                 Case "0"
@@ -48,20 +49,14 @@
 
     End Sub
     Shared Sub SayHello()
+        Console.Clear()
+        Console.WriteLine(LineString)
+        Console.WriteLine("hello.....")
 
-        'Console.WriteLine(CalculateAverage(1, 2, 3, 4, 5, 6, 7))
-
-        Dim lst001 As List(Of String) = New List(Of String)
-        'lst001.Add("aaa")
-        'lst001.Add("bbb")
-        'lst001.Add("ccc")
-        lst001.AddRange({"aaa", "bbb", "ccc"})
-        Console.WriteLine("aaa:{0}, ddd:{1}", lst001.IndexOf("bbb"), lst001.IndexOf("ddd"))
-
-        If lst001.IndexOf("aaa") <> -1 Then
-            Console.WriteLine("aaaaaaaaaaaaa")
-        End If
-
+        Dim a As Integer = 9
+        Dim obj As Object = a
+        Dim b As Integer = CType(obj, Integer)
+        Console.WriteLine(b.ToString)
 
 
 
@@ -92,22 +87,55 @@
         Return sum / Values.Length
     End Function
 
-    Protected Shared Sub EnterLogData(ByVal msg As String, Optional owner As String = "Boss")
-        Console.WriteLine("Message is {0}, Owner is {1}", msg, owner)
-    End Sub
-
-    Protected Shared Function Add(ByVal x As Integer, ByVal y As Integer) As Integer
-        Return x + y
-    End Function
-
-    Protected Shared Function Add(ByVal x As Long, ByVal y As Long) As Long
-        Return x + y
-    End Function
-
-
     Public Class User
+        Implements IComparable
         Public name As String
         Public age As Integer
+
+        Public Sub New(name As String, age As Integer)
+            Me.name = name
+            Me.age = age
+        End Sub
+
+        Public Function CompareTo(obj As Object) As Integer Implements IComparable.CompareTo
+            'Throw New NotImplementedException()
+            Dim u2 As User = CType(obj, User)
+            'Return Me.age.CompareTo(u2.age)
+            Return Me.name.CompareTo(u2.name)
+        End Function
     End Class
+
+    Public Class BaseType
+        Private _name As String
+        Public Overridable Property Name() As String
+            Get
+                Return _name
+            End Get
+            Set(ByVal value As String)
+                _name = value
+            End Set
+        End Property
+
+
+    End Class
+
+    Public Class DerivedType
+        Inherits BaseType
+        Private _name As String
+        Public Overrides Property Name() As String
+            Get
+                Return MyBase.Name
+            End Get
+            Set(ByVal value As String)
+                If String.IsNullOrEmpty(value) Then
+                    Throw New ArgumentException("null or empty")
+                End If
+                MyBase.Name = value
+            End Set
+        End Property
+    End Class
+
+
+
 
 End Class

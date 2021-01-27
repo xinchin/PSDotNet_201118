@@ -2,9 +2,7 @@
     Protected Shared optionList As New List(Of String)
 
     Shared Sub ShowOptions()
-
-        Console.WriteLine("=========================================================")
-        Console.WriteLine()
+        Console.WriteLine(LineString)
 
         For i = 0 To optionList.Count - 1
             Console.Write("{0}. {1}" & vbTab & vbTab, i, optionList(i).ToString())

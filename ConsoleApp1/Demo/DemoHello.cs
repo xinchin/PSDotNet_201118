@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
+using System.Collections.Immutable;
 
 namespace ConsoleApp1.Demo
 {
+
+    public delegate void showMsg(string msg);
+
     class DemoHello : DemoBase
     {
 
@@ -14,6 +19,7 @@ namespace ConsoleApp1.Demo
             bool canExecute = true;
             string op = string.Empty;
 
+            Console.Clear();
             optionList.Clear();
             optionList.Add("Hello 001");                    //0
             optionList.Add("ShowEnvironmentDetails");       //1
@@ -22,8 +28,6 @@ namespace ConsoleApp1.Demo
             optionList.Add("StringEquality");               //4
             optionList.Add("FunWithStringBuilder");         //5
             optionList.Add("Array Test");         //5
-
-
 
             while (canExecute)
             {
@@ -74,24 +78,39 @@ namespace ConsoleApp1.Demo
             Console.WriteLine();
         }
 
+
         public static void SayHello()
         {
-            Console.WriteLine("------ Say Hello ------");
+            Console.Clear();
+            Console.WriteLine(Program.LineString);
+
+            int a = 9;
+            object obj = a;
+
+            int b = (int)obj;
 
 
-            int? x =null;
+            ArrayList list = new ArrayList();
+            list.Add(9);
+            list.Add(7);
+            list.Add(1);
+            list.Add(3);
 
-            if (x != null )
-            {
-
+            foreach (int item in list) {
+                Console.WriteLine(item.ToString());
             }
+
+
+
+
+
+
+
+
+
             
 
-
-
         }
-
-
 
         /// <summary>
         /// 系統環境
@@ -164,5 +183,68 @@ namespace ConsoleApp1.Demo
         }
 
     }
+
+
+
+
+
+    public class ToolCompare<T> where T : IComparable {
+        public static int Comp(T o1, T o2) {
+            return o1.CompareTo(o2);
+        }
+    }
+
+
+    public class Book : IComparable
+    {
+        public int price;
+        public string title;
+
+        public Book(string t, int p) {
+            title = t;
+            price = p;
+        }
+
+        public int CompareTo(object obj)
+        {
+            Book b2 = (Book)obj;
+            
+            //return this.price.CompareTo(b2.price);
+            return this.title.CompareTo(b2.title);
+        }
+
+        public void show(showMsg cb) {
+            cb(this.title);
+        }
+    }
+
+
+    public class BaseType {
+
+        public virtual String Name { 
+            get; 
+            set; 
+        }
+
+    }
+
+
+    public class User
+    {
+        private Lazy<string> uname;
+        //public string UserName => uname.Value;
+
+        public string UserName {
+            get => uname.Value;
+            
+        }
+
+        public User()
+        {
+            uname = new Lazy<string>(()=>"xinchin");
+        }
+    }
+
+
 }
 

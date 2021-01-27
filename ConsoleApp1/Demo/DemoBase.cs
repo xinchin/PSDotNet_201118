@@ -11,7 +11,7 @@ namespace ConsoleApp1.Demo
         protected static List<string> optionList = new List<string>();
         public static void ShowOptions()
         {
-            Console.WriteLine();
+            Console.WriteLine("\r\n====================================================================================\r\n");
             for (int i = 0; i < optionList.Count; i++)
             {
                 Console.Write("{0}. {1}\t\t\t", i, optionList[i].ToString());
@@ -22,6 +22,7 @@ namespace ConsoleApp1.Demo
             Console.WriteLine("please type 'exit' if you want to exit here");
             Console.WriteLine();
             Console.Write("Please type your selection :");
+            Console.WriteLine("\r\n====================================================================================\r\n");
         }
     }
 }

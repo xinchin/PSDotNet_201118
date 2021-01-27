@@ -9,6 +9,7 @@ namespace ConsoleApp1.Demo
     class DemoAsync
     {
         public static void Run() {
+            Console.Clear();
             Console.WriteLine("DemoAsync is running...");
         }
     }

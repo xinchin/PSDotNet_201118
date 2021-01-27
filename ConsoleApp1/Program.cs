@@ -8,6 +8,9 @@ namespace ConsoleApp1
 {
     class Program
     {
+
+        public static readonly string LineString = $"\r\n{new string('=', Console.WindowWidth)}\r\n";
+
         static void Main(string[] args)
         {
             bool canExecute = true;
@@ -43,8 +46,8 @@ namespace ConsoleApp1
             List<string> optionList = new List<string>();
             optionList.Add("Say Hello");    //0
             optionList.Add("DemoAsync");    //1
-            
 
+            Console.Clear();
             Console.WriteLine();
             for (int i = 0; i < optionList.Count; i++)
             {
