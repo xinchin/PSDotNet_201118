@@ -57,6 +57,12 @@ namespace ConsoleApp1.Demo
             MyUser u1 = new MyUser();
             u1.Name = "Nelson";
             u1.ShowUser();
+            u1.ShowAll();
+
+            var hello = new HelloCollection();
+            foreach (var o in hello) {
+                Console.WriteLine(o);
+            }
 
         }
     }
@@ -65,11 +71,20 @@ namespace ConsoleApp1.Demo
         public string Name { get; set; }
     }
 
+    public class HelloCollection {
+        public IEnumerator<string> GetEnumerator() {
+            yield return "Hello";
+            yield return "World";
+        }
+    }
+
 
 
     public static class MyExtension{
         public static int GetWordCount(this string s) => s.Split().Length;
         public static void ShowValue(this int n) => Console.WriteLine((n+100).ToString());
         public static void ShowUser(this MyUser u) => Console.WriteLine($"Hello {u.Name}");
+
+        public static void ShowAll(this object o) => Console.WriteLine(o.ToString());
     }
 }
