@@ -54,11 +54,22 @@ namespace ConsoleApp1.Demo
             Console.WriteLine(cc.ToString());
             cc.ShowValue();
 
+            MyUser u1 = new MyUser();
+            u1.Name = "Nelson";
+            u1.ShowUser();
+
         }
     }
+
+    public class MyUser {
+        public string Name { get; set; }
+    }
+
+
 
     public static class MyExtension{
         public static int GetWordCount(this string s) => s.Split().Length;
         public static void ShowValue(this int n) => Console.WriteLine((n+100).ToString());
+        public static void ShowUser(this MyUser u) => Console.WriteLine($"Hello {u.Name}");
     }
 }
