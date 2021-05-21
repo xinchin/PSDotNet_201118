@@ -15,8 +15,8 @@ namespace ConsoleApp1.Demo
 
             Console.Clear();
             optionList.Clear();
-            optionList.Add("My Test");                    //0
-           
+            optionList.Add("Extension");                    //0
+
 
             while (canExecute)
             {
@@ -28,9 +28,9 @@ namespace ConsoleApp1.Demo
                 switch (op)
                 {
                     case "0":
-                        SayHello();
+                        TestExtension();
                         break;
-                   
+
                     case "exit":
                         canExecute = false;
                         break;
@@ -45,5 +45,17 @@ namespace ConsoleApp1.Demo
             Console.WriteLine(Program.LineString);
             Console.WriteLine("Hello Practice 1");
         }
+
+        public static void TestExtension() {
+            Console.Clear();
+            Console.WriteLine(Program.LineString);
+            string s1 = "Hello World !";
+            int cc = s1.GetWordCount();
+            Console.WriteLine(cc.ToString());
+        }
+    }
+
+    public static class MyExtension{
+        public static int GetWordCount(this string s) => s.Split().Length;
     }
 }
