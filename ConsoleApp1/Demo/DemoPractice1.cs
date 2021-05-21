@@ -52,10 +52,13 @@ namespace ConsoleApp1.Demo
             string s1 = "Hello World !";
             int cc = s1.GetWordCount();
             Console.WriteLine(cc.ToString());
+            cc.ShowValue();
+
         }
     }
 
     public static class MyExtension{
         public static int GetWordCount(this string s) => s.Split().Length;
+        public static void ShowValue(this int n) => Console.WriteLine((n+100).ToString());
     }
 }
