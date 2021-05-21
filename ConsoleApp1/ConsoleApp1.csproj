@@ -78,6 +78,7 @@
     <Compile Include="Demo\DemoAsync.cs" />
     <Compile Include="Demo\DemoBase.cs" />
     <Compile Include="Demo\DemoHello.cs" />
+    <Compile Include="Demo\DemoPractice1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

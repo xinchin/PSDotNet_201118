@@ -30,6 +30,9 @@ namespace ConsoleApp1
                     case "1":
                         Demo.DemoAsync.Run();
                         break;
+                    case "2":
+                        Demo.DemoPractice1.Run();
+                        break;
                     case "exit":
                         canExecute = false;
                         break;
@@ -46,6 +49,7 @@ namespace ConsoleApp1
             List<string> optionList = new List<string>();
             optionList.Add("Say Hello");    //0
             optionList.Add("DemoAsync");    //1
+            optionList.Add("DemoPractice1");    //2
 
             Console.Clear();
             Console.WriteLine();
