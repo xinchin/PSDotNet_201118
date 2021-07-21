@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Immutable;
+using System.Diagnostics;
 
 namespace ConsoleApp1.Demo
 {
@@ -27,7 +29,8 @@ namespace ConsoleApp1.Demo
             optionList.Add("BasicStringFunctionality");     //3
             optionList.Add("StringEquality");               //4
             optionList.Add("FunWithStringBuilder");         //5
-            optionList.Add("Array Test");         //5
+            optionList.Add("Array Test");         //6
+            optionList.Add("RunThread");         //7
 
             while (canExecute)
             {
@@ -68,6 +71,9 @@ namespace ConsoleApp1.Demo
                         Console.WriteLine("end");
 
                         break;
+                    case "7":
+                        RunThread();
+                        break;
                     case "exit":
                         canExecute = false;
                         break;
@@ -84,32 +90,16 @@ namespace ConsoleApp1.Demo
             Console.Clear();
             Console.WriteLine(Program.LineString);
 
-            int a = 9;
-            object obj = a;
 
-            int b = (int)obj;
-
-
-            ArrayList list = new ArrayList();
-            list.Add(9);
-            list.Add(7);
-            list.Add(1);
-            list.Add(3);
-
-            foreach (int item in list) {
-                Console.WriteLine(item.ToString());
+            Process[] pros = Process.GetProcesses();
+            foreach (var item in pros)
+            {
+                Console.WriteLine($"{item}");
             }
 
+            Process.Start("calc");
 
-
-
-
-
-
-
-
-            
-
+         
         }
 
         /// <summary>
@@ -181,6 +171,33 @@ namespace ConsoleApp1.Demo
         {
             Console.WriteLine("Message is {0}, Owner is {1}", msg, owner);
         }
+
+
+        public static void ThreadProc() {
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine($"[{DateTime.Now}] ThreadId = {Thread.CurrentThread.ManagedThreadId}");
+                Thread.Sleep(1000);
+            }
+        }
+        public static void RunThread (){
+            var threads = new List<Thread>();
+            for (int i = 0; i < 4; i++)
+            {
+                var thread = new Thread(ThreadProc);
+                threads.Add(thread);
+                thread.Start();
+            }
+
+            foreach (var item in threads)
+            {
+                item.Join();
+            }
+
+        
+        }
+
+
 
     }
 
