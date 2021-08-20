@@ -18,6 +18,8 @@
                     DemoHello.Run()
                 Case 1
                     DemoAsync.Run()
+                Case 2
+                    DemoTemp.Run()
                 Case "exit"
                     canExecute = False
                 Case Else
