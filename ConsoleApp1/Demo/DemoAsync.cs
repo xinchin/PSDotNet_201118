@@ -6,11 +6,36 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1.Demo
 {
-    class DemoAsync
+    class DemoAsync:DemoBase
     {
         public static void Run() {
+
+            bool canExecute = true;
+            string op = string.Empty;
+
             Console.Clear();
-            Console.WriteLine("DemoAsync is running...");
+            optionList.Clear();
+            optionList.Add("Hello");                    //0
+
+            while (canExecute)
+            {
+                ShowOptions();
+                op = Console.ReadLine();
+                Console.WriteLine();
+                Console.WriteLine("Your selection is： {0}", op);
+                Console.WriteLine();
+                switch (op)
+                {
+                    case "0":
+                        break;
+                    case "exit":
+                        canExecute = false;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
         }
     }
 }

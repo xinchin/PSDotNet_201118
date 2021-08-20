@@ -16,6 +16,10 @@ namespace ConsoleApp1.Demo
             Console.Clear();
             optionList.Clear();
             optionList.Add("Extension");                    //0
+            optionList.Add("Extension");                    //0
+            optionList.Add("Extension");                    //0
+            optionList.Add("Extension");                    //0
+            optionList.Add("Extension");                    //0
 
 
             while (canExecute)

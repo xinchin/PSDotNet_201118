@@ -47,22 +47,24 @@ namespace ConsoleApp1
 
         static void ShowOptions() {
             List<string> optionList = new List<string>();
-            optionList.Add("Say Hello");    //0
-            optionList.Add("DemoAsync");    //1
-            optionList.Add("DemoPractice1");    //2
+            optionList.Add("Say Hello");                //0
+            optionList.Add("DemoAsync");                //1
+            optionList.Add("DemoPractice1");            //2
 
             Console.Clear();
-            Console.WriteLine();
+            Console.WriteLine(LineString);
             for (int i = 0; i < optionList.Count; i++)
             {
-                Console.Write("{0}. {1}\t\t" , i, optionList[i].ToString());
-                if ((i+1) % 3 == 0) Console.WriteLine();
+                Console.Write("{0}. {1}\t\t\t", i, optionList[i].ToString());
+                if (optionList[i].Length <= 12) Console.Write("\t");
+                if ((i+1) % 2 == 0) Console.WriteLine();
             }
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("please type 'exit' if you want to exit here");
             Console.WriteLine();
             Console.Write("Please type your selection :");
+            Console.WriteLine(LineString);
         }
     }
 }

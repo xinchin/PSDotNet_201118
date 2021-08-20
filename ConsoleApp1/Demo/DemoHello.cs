@@ -23,14 +23,14 @@ namespace ConsoleApp1.Demo
 
             Console.Clear();
             optionList.Clear();
-            optionList.Add("Hello 001");                    //0
-            optionList.Add("ShowEnvironmentDetails");       //1
-            optionList.Add("UseDatesAndTimes");             //2
-            optionList.Add("BasicStringFunctionality");     //3
-            optionList.Add("StringEquality");               //4
-            optionList.Add("FunWithStringBuilder");         //5
-            optionList.Add("Array Test");         //6
-            optionList.Add("RunThread");         //7
+            optionList.Add("Hello 001...");                     //0
+            optionList.Add("ShowEnvironment");                  //1
+            optionList.Add("UseDatesAndTimes");                 //2
+            optionList.Add("BasicStringFunctionality");         //3
+            optionList.Add("StringEquality");                   //4
+            optionList.Add("FunWithStringBuilder");             //5
+            optionList.Add("Array Test");                       //6
+            optionList.Add("RunThread");                        //7
 
             while (canExecute)
             {
