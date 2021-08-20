@@ -8,6 +8,7 @@ namespace ConsoleApp1.Demo
 {
     class DemoPractice1 : DemoBase
     {
+        
         public static void Run()
         {
             bool canExecute = true;

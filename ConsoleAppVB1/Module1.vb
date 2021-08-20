@@ -1,6 +1,7 @@
 ﻿Module Module1
 
-    Public LineString As String = New String("=", Console.WindowWidth)
+    'Public LineString As String = New String("=", Console.WindowWidth)
+    Public ReadOnly LineString As String = vbNewLine & New String("=", Console.WindowWidth) & vbNewLine
 
     Sub Main()
         Dim canExecute As Boolean = True
@@ -13,9 +14,9 @@
             Console.WriteLine()
             Console.WriteLine()
             Select Case op
-                Case "0"
+                Case 0
                     DemoHello.Run()
-                Case "1"
+                Case 1
                     DemoAsync.Run()
                 Case "exit"
                     canExecute = False
@@ -48,6 +49,7 @@
         Console.WriteLine("please type 'exit' if you want to exit here")
         Console.WriteLine()
         Console.Write("Please type your selection :")
+        Console.WriteLine(LineString)
 
     End Sub
 
