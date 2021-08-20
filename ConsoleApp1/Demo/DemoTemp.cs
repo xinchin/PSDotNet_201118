@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace ConsoleApp1.Demo
 {
 
-    class DemoPractice1 : DemoBase
+    class DemoTemp : DemoBase
     {
-        
+
         public static void Run()
         {
             bool canExecute = true;
@@ -42,7 +42,8 @@ namespace ConsoleApp1.Demo
         }
 
 
-        public static void SayHello() {
+        public static void SayHello()
+        {
             Console.Clear();
             Console.WriteLine(Program.LineString);
 

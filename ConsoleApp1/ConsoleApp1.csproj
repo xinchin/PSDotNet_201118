@@ -79,6 +79,7 @@
     <Compile Include="Demo\DemoBase.cs" />
     <Compile Include="Demo\DemoHello.cs" />
     <Compile Include="Demo\DemoPractice1.cs" />
+    <Compile Include="Demo\DemoTemp.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

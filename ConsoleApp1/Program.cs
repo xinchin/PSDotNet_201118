@@ -33,6 +33,9 @@ namespace ConsoleApp1
                     case "2":
                         Demo.DemoPractice1.Run();
                         break;
+                    case "3":
+                        Demo.DemoTemp.Run();
+                        break;
                     case "exit":
                         canExecute = false;
                         break;
