@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E4319AEF-C736-413A-B4EC-8A6281B1FE89}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>ConsoleAppVB1.Module1</StartupObject>
+    <StartupObject>ConsoleAppVB1.Module2</StartupObject>
     <RootNamespace>ConsoleAppVB1</RootNamespace>
     <AssemblyName>ConsoleAppVB1</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -89,7 +89,9 @@
     <Compile Include="Demo\DemoBase.vb" />
     <Compile Include="Demo\DemoHello.vb" />
     <Compile Include="Demo\DemoTemp.vb" />
+    <Compile Include="Demo\Test001.vb" />
     <Compile Include="Module1.vb" />
+    <Compile Include="Module2.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

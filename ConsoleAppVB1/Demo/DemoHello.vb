@@ -1,4 +1,4 @@
-﻿
+﻿Imports System.Threading
 Public Class DemoHello
     Inherits DemoBase
 
@@ -51,16 +51,48 @@ Public Class DemoHello
     Shared Sub SayHello()
         Console.Clear()
         Console.WriteLine(LineString)
-        Console.WriteLine("hello.....")
+        'Console.WriteLine("hello.....")
 
-        Dim a As Integer = 9
-        Dim obj As Object = a
-        Dim b As Integer = CType(obj, Integer)
-        Console.WriteLine(b.ToString)
+        Console.WriteLine(Thread.CurrentThread.ManagedThreadId)
+        Dim tcs As Task(Of Integer) = TestRun(Of Integer)(Function()
+                                                              Thread.Sleep(3000)
+                                                              Console.WriteLine($"TestRun:{Thread.CurrentThread.ManagedThreadId}")
+                                                              Return 99
+                                                          End Function)
+
+        tcs.GetAwaiter().OnCompleted(Sub()
+                                         Console.WriteLine(".....completed.....")
+                                     End Sub)
+
+
+        'Dim t As Task = Task.Run(Sub()
+        '                             Thread.Sleep(2000)
+        '                             Console.WriteLine($"Run:{Thread.CurrentThread.ManagedThreadId}")
+        '                         End Sub)
+
+        'Dim x = t.GetAwaiter
+        'x.OnCompleted(Sub()
+        '                  Console.WriteLine("....completed...")
+        '              End Sub)
+
+        Console.WriteLine(".....end....")
 
 
 
     End Sub
+
+
+    Shared Function TestRun(Of T)(f As Func(Of T)) As Task(Of T)
+        Dim tcs As New TaskCompletionSource(Of T)
+        Try
+            tcs.SetResult(f())
+        Catch ex As Exception
+            tcs.SetException(ex)
+        End Try
+        Return tcs.Task
+    End Function
+
+
 
     Shared Sub ShowEnvironmentDetails()
         Console.WriteLine("OS：{0}", Environment.OSVersion)

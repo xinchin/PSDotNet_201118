@@ -31,6 +31,7 @@ namespace ConsoleApp1.Demo
             optionList.Add("FunWithStringBuilder");             //5
             optionList.Add("Array Test");                       //6
             optionList.Add("RunThread");                        //7
+            optionList.Add("Test");                             //8
 
             while (canExecute)
             {
@@ -74,6 +75,23 @@ namespace ConsoleApp1.Demo
                     case "7":
                         RunThread();
                         break;
+                    case "8":
+                        Thread t = new Thread(() =>
+                        {
+                            Thread.Sleep(300);
+                            Console.WriteLine("test");
+                        });
+                        t.Start();
+
+                        if (t.Join(500))
+                        {
+                            Console.WriteLine("aa");
+                        }
+                        else
+                        {
+                            Console.WriteLine("bb");
+                        }
+                        break;
                     case "exit":
                         canExecute = false;
                         break;
@@ -85,22 +103,92 @@ namespace ConsoleApp1.Demo
         }
 
 
-        public static void SayHello()
+        public static async void SayHello()
         {
             Console.Clear();
             Console.WriteLine(Program.LineString);
 
+            //Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+            //Task<int> tcs = TestRun<int>(() =>
+            //{
+            //    Thread.Sleep(1000);
+            //    Console.WriteLine($"testrun:{Thread.CurrentThread.ManagedThreadId}");
+            //    return 99;
+            //});
 
-            Process[] pros = Process.GetProcesses();
-            foreach (var item in pros)
-            {
-                Console.WriteLine($"{item}");
-            }
+            Console.WriteLine($"Main:{Thread.CurrentThread.ManagedThreadId}");
+            await DisplayPrimeCountsAsync();
+            //DisplayPrimeCounts();
 
-            Process.Start("calc");
-
-         
+            Console.WriteLine("......end.....");
         }
+
+
+        async static Task DisplayPrimeCountsAsync()
+        {
+            Thread.Sleep(2000);
+            Console.WriteLine($"DisplayPrimeCountsAsync:{Thread.CurrentThread.ManagedThreadId}");
+            for (int i = 0; i < 10; i++)
+            {
+                Thread.Sleep(100);
+                Console.WriteLine(await GetPrimeCountAsync(i * 1000000 + 2, 1000000) + " primes between " + (i * 1000000) + " and " + ((i + 1) * 1000000 - 1));
+            }
+            Console.WriteLine("Done!!");
+        }
+
+        static Task<int> GetPrimeCountAsync(int start, int count)
+        {
+            Console.WriteLine($"GetPrimeCountAsync:{Thread.CurrentThread.ManagedThreadId}");
+            //await Task.Run(()=> {
+            //    Console.WriteLine($"Run:{Thread.CurrentThread.ManagedThreadId}");
+            //});
+            //return 99;
+            return Task.Run(() =>
+            {
+                Console.WriteLine($"Run:{Thread.CurrentThread.ManagedThreadId}");
+                return ParallelEnumerable.Range(start, count).Count(n => Enumerable.Range(2, (int)Math.Sqrt(n) - 1).All(i => n % i > 0));
+            });
+        }
+
+        static Task<T> TestRun<T>(Func<T> f)
+        {
+
+            var tcs = new TaskCompletionSource<T>();
+            new Thread(() =>
+            {
+                try
+                {
+                    tcs.SetResult(f());
+                }
+                catch (Exception ex)
+                {
+                    tcs.SetException(ex);
+                }
+
+            }).Start();
+            return tcs.Task;
+        }
+
+        static void DisplayPrimeCounts()
+        {
+            Console.WriteLine($"DisplayPrimeCountsAsync:{Thread.CurrentThread.ManagedThreadId}");
+            for (int i = 0; i < 10; i++)
+            {
+                Thread.Sleep(100);
+                Task.Run(() =>
+                {
+                    Thread.Sleep(100);
+                    Console.WriteLine($"Task.Run:{Thread.CurrentThread.ManagedThreadId}");
+                });
+                //Console.WriteLine(GetPrimeCountAsync(i * 1000000 + 2, 1000000) + " primes between " + (i * 1000000) + " and " + ((i + 1) * 1000000 - 1));
+            }
+            Console.WriteLine("Done!!");
+        }
+
+
+
+
+
 
         /// <summary>
         /// 系統環境
@@ -173,14 +261,16 @@ namespace ConsoleApp1.Demo
         }
 
 
-        public static void ThreadProc() {
+        public static void ThreadProc()
+        {
             for (int i = 0; i < 10; i++)
             {
                 Console.WriteLine($"[{DateTime.Now}] ThreadId = {Thread.CurrentThread.ManagedThreadId}");
                 Thread.Sleep(1000);
             }
         }
-        public static void RunThread (){
+        public static void RunThread()
+        {
             var threads = new List<Thread>();
             for (int i = 0; i < 4; i++)
             {
@@ -194,7 +284,7 @@ namespace ConsoleApp1.Demo
                 item.Join();
             }
 
-        
+
         }
 
 
@@ -205,8 +295,10 @@ namespace ConsoleApp1.Demo
 
 
 
-    public class ToolCompare<T> where T : IComparable {
-        public static int Comp(T o1, T o2) {
+    public class ToolCompare<T> where T : IComparable
+    {
+        public static int Comp(T o1, T o2)
+        {
             return o1.CompareTo(o2);
         }
     }
@@ -217,7 +309,8 @@ namespace ConsoleApp1.Demo
         public int price;
         public string title;
 
-        public Book(string t, int p) {
+        public Book(string t, int p)
+        {
             title = t;
             price = p;
         }
@@ -225,22 +318,25 @@ namespace ConsoleApp1.Demo
         public int CompareTo(object obj)
         {
             Book b2 = (Book)obj;
-            
+
             //return this.price.CompareTo(b2.price);
             return this.title.CompareTo(b2.title);
         }
 
-        public void show(showMsg cb) {
+        public void show(showMsg cb)
+        {
             cb(this.title);
         }
     }
 
 
-    public class BaseType {
+    public class BaseType
+    {
 
-        public virtual String Name { 
-            get; 
-            set; 
+        public virtual String Name
+        {
+            get;
+            set;
         }
 
     }
@@ -251,14 +347,15 @@ namespace ConsoleApp1.Demo
         private Lazy<string> uname;
         //public string UserName => uname.Value;
 
-        public string UserName {
+        public string UserName
+        {
             get => uname.Value;
-            
+
         }
 
         public User()
         {
-            uname = new Lazy<string>(()=>"xinchin");
+            uname = new Lazy<string>(() => "xinchin");
         }
     }
 
