@@ -10,14 +10,16 @@ using System.Windows.Forms;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 
 namespace WindowsFormsApp1.Demo
 {
     public partial class DemoForm1 : Form
     {
-
         public string dbPath = @"C:\Work\WorkPlace\Doing\qpp.db";
         public List<DataObject> UIDList = new List<DataObject>();
+        public CSQLiteHelper sqliteHelper;
+        private Object _lockObject = new Object();
 
         public DemoForm1()
         {
@@ -26,6 +28,18 @@ namespace WindowsFormsApp1.Demo
 
         private void DemoForm1_Load(object sender, EventArgs e)
         {
+            CheckForIllegalCrossThreadCalls = false;
+            lock (_lockObject)
+            {
+                Thread th = new Thread(new ThreadStart(Run));
+                th.Start();
+            }
+        }
+
+        public void Run()
+        {
+            sqliteHelper = new CSQLiteHelper(dbPath);
+            sqliteHelper.OpenDb();
             ReadFileToList();
             StreamWriter sw = new StreamWriter(@"C:\Work\WorkPlace\Doing\result.txt");
 
@@ -85,13 +99,12 @@ namespace WindowsFormsApp1.Demo
                 i++;
             }
             sw.Close();
+            sw.Dispose();
+            sqliteHelper.CloseDb();
         }
 
         public DataObject query(string cargoHeight, string phone)
         {
-            CSQLiteHelper sqliteHelper = new CSQLiteHelper(dbPath);
-            sqliteHelper.OpenDb();
-
             SQLiteCommand sqlite_cmd = sqliteHelper._SQLiteConn.CreateCommand();
             sqlite_cmd.CommandText = $"select * from cc where cargoid = 106589 and cargoHeight < {cargoHeight} and (phoneTo = {phone} or phoneFrom = {phone})  order by cargoHeight DESC limit 1";
             SQLiteDataReader sqlite_datareader = sqlite_cmd.ExecuteReader();
@@ -106,15 +119,11 @@ namespace WindowsFormsApp1.Demo
                 obj.phoneTo = sqlite_datareader["phoneTo"].ToString();
                 obj.amount = sqlite_datareader["amount"].ToString();
             }
-            sqliteHelper.CloseDb();
             return obj;
         }
 
         public DataObject query2(string cargoHeight, string phone)
         {
-            CSQLiteHelper sqliteHelper = new CSQLiteHelper(dbPath);
-            sqliteHelper.OpenDb();
-
             SQLiteCommand sqlite_cmd = sqliteHelper._SQLiteConn.CreateCommand();
             sqlite_cmd.CommandText = $"select * from cc where cargoid =106589 and cargoHeight <  {cargoHeight} and (phoneTo = {phone} or phoneFrom = {phone}) order by cargoHeight DESC limit 1";
             SQLiteDataReader sqlite_datareader = sqlite_cmd.ExecuteReader();
@@ -129,15 +138,11 @@ namespace WindowsFormsApp1.Demo
                 obj.phoneTo = sqlite_datareader["phoneTo"].ToString();
                 obj.amount = sqlite_datareader["amount"].ToString();
             }
-            sqliteHelper.CloseDb();
             return obj;
         }
 
         public DataObject query3(string cargoHeight, string phone)
         {
-            CSQLiteHelper sqliteHelper = new CSQLiteHelper(dbPath);
-            sqliteHelper.OpenDb();
-
             SQLiteCommand sqlite_cmd = sqliteHelper._SQLiteConn.CreateCommand();
             sqlite_cmd.CommandText = $"select * from cc where cargoid =106589 and cargoHeight >  {cargoHeight} and (phoneTo = {phone} or phoneFrom = {phone}) order by cargoHeight ASC limit 1";
 
@@ -153,8 +158,6 @@ namespace WindowsFormsApp1.Demo
                 obj.phoneTo = sqlite_datareader["phoneTo"].ToString();
                 obj.amount = sqlite_datareader["amount"].ToString();
             }
-            sqliteHelper.CloseDb();
-
             return obj;
         }
         public void ReadFileToList()
@@ -172,7 +175,7 @@ namespace WindowsFormsApp1.Demo
             sr.Close();
             Console.ReadLine();
         }
-        public class DataObject
+        public struct DataObject
         {
             public string UID;
             public string cargoHeight;
