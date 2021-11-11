@@ -32,10 +32,32 @@ namespace WindowsFormsApp1.Demo
             int i = 1;
             foreach (DataObject item in UIDList)
             {
-                DataObject obj = query(item.cargoHeight);
-                DataObject obj2 = query2(item.cargoHeight, obj.phoneTo);
-                DataObject obj3 = query3(item.cargoHeight, obj2.phoneFrom);
-                Debug.Print($"index:{i}, UID:{UIDList[0].UID}, cargoHeight:{UIDList[0].cargoHeight}, pre cargoHeight:{obj2.cargoHeight}, next cargoHeight:{obj3.cargoHeight}, pre fromBalance:{obj2.fromBalance}, next fromBalance:{obj3.fromBalance}");
+                // 取出上一筆(查 toBalance)
+                DataObject obj = query(item.cargoHeight, item.UID);
+
+                // 取出上一筆（查 fromBalance）
+                DataObject obj2 = new DataObject();
+                if (obj.phoneFrom != null)
+                {
+                    obj2 = query2(item.cargoHeight, obj.phoneFrom);
+                }
+
+                // 取出下一筆（查 fromBalance）
+                DataObject obj3 = new DataObject();
+                if (obj.phoneFrom != null)
+                {
+                    obj3 = query3(item.cargoHeight, obj.phoneFrom);
+                }
+
+                // 取出下一筆（查 toBalance）
+                DataObject obj4 = new DataObject();
+                if (obj.phoneTo != null)
+                {
+                    obj4 = query3(item.cargoHeight, obj.phoneTo);
+                }
+
+                Debug.Print($"index:{i},UID:{item.UID}, {obj3.fromBalance}, {obj3.toBalance}");
+
                 List<string> a = new List<string>();
 
                 a.Add(i.ToString());
@@ -43,59 +65,21 @@ namespace WindowsFormsApp1.Demo
                 a.Add(item.cargoHeight);
                 a.Add(obj2.cargoHeight);
                 a.Add(obj3.cargoHeight);
-                a.Add(obj2.fromBalance);
+
+                if (obj.phoneFrom == obj2.phoneTo)
+                {
+                    a.Add(obj2.toBalance);
+                }
+                else
+                {
+                    a.Add(obj2.fromBalance);
+                }
+
                 a.Add(obj3.fromBalance);
-                a.Add(obj2.toBalance);
-                a.Add(obj3.toBalance);
-                a.Add(obj2.amount);
-                a.Add(obj3.amount);
-
-                if (ulong.Parse(obj2.cargoHeight) == ulong.Parse(item.cargoHeight) - 1 && ulong.Parse(obj3.cargoHeight) == ulong.Parse(item.cargoHeight) + 1)
-                {
-                    a.Add("Yes");
-                }
-                else
-                {
-                    a.Add("No");
-                }
-
-                ulong x, y = 0;
-                if (ulong.Parse(obj2.fromBalance) > ulong.Parse(obj3.fromBalance))
-                {
-                    x = ulong.Parse(obj2.fromBalance) - ulong.Parse(obj3.fromBalance);
-                    y = ulong.Parse(obj3.fromBalance);
-                }
-                else
-                {
-                    x = ulong.Parse(obj3.fromBalance) - ulong.Parse(obj2.fromBalance);
-                    y = ulong.Parse(obj2.fromBalance);
-                }
-
-                if (x / 2 == ulong.Parse(obj2.amount))
-                {
-                    a.Add((y+x/2).ToString());
-                }
-                else {
-                    a.Add("");
-                }
-
-                if (ulong.Parse(obj2.fromBalance) > ulong.Parse(obj3.fromBalance))
-                {
-                    a.Add((ulong.Parse(obj2.fromBalance) - ulong.Parse(obj3.fromBalance)).ToString());
-                }
-                else { 
-                    a.Add((ulong.Parse(obj3.fromBalance) - ulong.Parse(obj2.fromBalance)).ToString());
-
-                }
-
-                if (ulong.Parse(obj2.toBalance) > ulong.Parse(obj3.toBalance))
-                {
-                    a.Add((ulong.Parse(obj2.toBalance) - ulong.Parse(obj3.toBalance)).ToString());
-                }
-                else
-                {
-                    a.Add((ulong.Parse(obj3.toBalance) - ulong.Parse(obj2.toBalance)).ToString());
-                }
+                a.Add(obj.toBalance);
+                a.Add(obj4.toBalance);
+                a.Add(obj.cargoHeight);
+                a.Add(obj4.cargoHeight);
 
                 sw.WriteLine(string.Join("\t", a.ToArray()));
                 i++;
@@ -103,24 +87,25 @@ namespace WindowsFormsApp1.Demo
             sw.Close();
         }
 
-        public DataObject query(string cargoHeight)
+        public DataObject query(string cargoHeight, string phone)
         {
             CSQLiteHelper sqliteHelper = new CSQLiteHelper(dbPath);
             sqliteHelper.OpenDb();
 
             SQLiteCommand sqlite_cmd = sqliteHelper._SQLiteConn.CreateCommand();
-            sqlite_cmd.CommandText = $"select * from cc where cargoid = 106589 and cargoHeight < {cargoHeight} order by cargoHeight DESC limit 1";
-
+            sqlite_cmd.CommandText = $"select * from cc where cargoid = 106589 and cargoHeight < {cargoHeight} and (phoneTo = {phone} or phoneFrom = {phone})  order by cargoHeight DESC limit 1";
             SQLiteDataReader sqlite_datareader = sqlite_cmd.ExecuteReader();
 
             DataObject obj = new DataObject();
-            sqlite_datareader.Read();
-            obj.cargoHeight = sqlite_datareader["cargoHeight"].ToString();
-            obj.fromBalance = sqlite_datareader["fromBalance"].ToString();
-            obj.toBalance = sqlite_datareader["toBalance"].ToString();
-            obj.phoneFrom = sqlite_datareader["phoneFrom"].ToString();
-            obj.phoneTo = sqlite_datareader["phoneTo"].ToString();
-            obj.amount = sqlite_datareader["amount"].ToString();
+            while (sqlite_datareader.Read())
+            {
+                obj.cargoHeight = sqlite_datareader["cargoHeight"].ToString();
+                obj.fromBalance = sqlite_datareader["fromBalance"].ToString();
+                obj.toBalance = sqlite_datareader["toBalance"].ToString();
+                obj.phoneFrom = sqlite_datareader["phoneFrom"].ToString();
+                obj.phoneTo = sqlite_datareader["phoneTo"].ToString();
+                obj.amount = sqlite_datareader["amount"].ToString();
+            }
             sqliteHelper.CloseDb();
             return obj;
         }
@@ -132,17 +117,18 @@ namespace WindowsFormsApp1.Demo
 
             SQLiteCommand sqlite_cmd = sqliteHelper._SQLiteConn.CreateCommand();
             sqlite_cmd.CommandText = $"select * from cc where cargoid =106589 and cargoHeight <  {cargoHeight} and (phoneTo = {phone} or phoneFrom = {phone}) order by cargoHeight DESC limit 1";
-
             SQLiteDataReader sqlite_datareader = sqlite_cmd.ExecuteReader();
 
             DataObject obj = new DataObject();
-            sqlite_datareader.Read();
-            obj.cargoHeight = sqlite_datareader["cargoHeight"].ToString();
-            obj.fromBalance = sqlite_datareader["fromBalance"].ToString();
-            obj.toBalance = sqlite_datareader["toBalance"].ToString();
-            obj.phoneFrom = sqlite_datareader["phoneFrom"].ToString();
-            obj.phoneTo = sqlite_datareader["phoneTo"].ToString();
-            obj.amount = sqlite_datareader["amount"].ToString();
+            while (sqlite_datareader.Read())
+            {
+                obj.cargoHeight = sqlite_datareader["cargoHeight"].ToString();
+                obj.fromBalance = sqlite_datareader["fromBalance"].ToString();
+                obj.toBalance = sqlite_datareader["toBalance"].ToString();
+                obj.phoneFrom = sqlite_datareader["phoneFrom"].ToString();
+                obj.phoneTo = sqlite_datareader["phoneTo"].ToString();
+                obj.amount = sqlite_datareader["amount"].ToString();
+            }
             sqliteHelper.CloseDb();
             return obj;
         }
@@ -152,19 +138,21 @@ namespace WindowsFormsApp1.Demo
             CSQLiteHelper sqliteHelper = new CSQLiteHelper(dbPath);
             sqliteHelper.OpenDb();
 
-            SQLiteCommand sqlite_cmd = sqliteHelper._SQLiteConn.CreateCommand();//create command
+            SQLiteCommand sqlite_cmd = sqliteHelper._SQLiteConn.CreateCommand();
             sqlite_cmd.CommandText = $"select * from cc where cargoid =106589 and cargoHeight >  {cargoHeight} and (phoneTo = {phone} or phoneFrom = {phone}) order by cargoHeight ASC limit 1";
 
             SQLiteDataReader sqlite_datareader = sqlite_cmd.ExecuteReader();
 
             DataObject obj = new DataObject();
-            sqlite_datareader.Read();
-            obj.cargoHeight = sqlite_datareader["cargoHeight"].ToString();
-            obj.fromBalance = sqlite_datareader["fromBalance"].ToString();
-            obj.toBalance = sqlite_datareader["toBalance"].ToString();
-            obj.phoneFrom = sqlite_datareader["phoneFrom"].ToString();
-            obj.phoneTo = sqlite_datareader["phoneTo"].ToString();
-            obj.amount = sqlite_datareader["amount"].ToString();
+            while (sqlite_datareader.Read())
+            {
+                obj.cargoHeight = sqlite_datareader["cargoHeight"].ToString();
+                obj.fromBalance = sqlite_datareader["fromBalance"].ToString();
+                obj.toBalance = sqlite_datareader["toBalance"].ToString();
+                obj.phoneFrom = sqlite_datareader["phoneFrom"].ToString();
+                obj.phoneTo = sqlite_datareader["phoneTo"].ToString();
+                obj.amount = sqlite_datareader["amount"].ToString();
+            }
             sqliteHelper.CloseDb();
 
             return obj;
