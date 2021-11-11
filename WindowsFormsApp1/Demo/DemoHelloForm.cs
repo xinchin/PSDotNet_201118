@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SQLite;
 
 namespace WindowsFormsApp1.Demo
 {
@@ -32,6 +33,7 @@ namespace WindowsFormsApp1.Demo
 
         private void button1_Click(object sender, EventArgs e)
         {
+
             Console.WriteLine($"Main:{Thread.CurrentThread.ManagedThreadId}");
             _context = SynchronizationContext.Current;
             new Thread(work).Start();
